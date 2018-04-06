@@ -26,10 +26,10 @@ class Server:
         self.HOST = self.config.get("server.host")
         self.PORT = int(self.config.get("server.port"))
         self.DEBUG_MODE = bool(int(self.config.get("server.debug_mode")))
-        self.DAO = Dao(self.config)
-        self.context = {
+        self.CONTEXT = {
+            # Use context to share singletons through your application
             "config": self.config,
-            "dao": self.DAO
+            "dao": Dao(self.config),
         }
 
     def start(self):
@@ -38,12 +38,11 @@ class Server:
         api = Api(app)
 
         from app.resources.version import Version
-        Version.set_context(self.context)
+        Version.set_context(self.CONTEXT)
         api.add_resource(Version, "/version")
 
-        #
-        # from smartexchangetool.resources.semantic.sentence_similarity import SentenceSimilarity
-        # api.add_resource(SentenceSimilarity, self.endpoint("/semantic/sentence-similarity"))
+        from app.resources.login import Login
+        api.add_resource(Login, "/login")
 
         app.run(
             host=self.HOST,

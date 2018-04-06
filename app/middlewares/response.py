@@ -1,16 +1,25 @@
 from flask_restful import abort
 
 
-def send_200(data):
-    body = {"error": None}
-    body = {**data, **body}
-    return (body, 200)
+class Response:
 
+    def send_200(self, data=None):
+        body = {"error": None}
+        if data:
+            body = {**data, **body}
+        return (body, 200)
 
-def send_500(error):
-    body = {"error": repr(error)}
-    return (body, 500)
+    def send_400(self, error, data=None):
+        body = {"error": error}
+        if data:
+            body = {**data, **body}
+        return (body, 200)
 
+    def send_401(self):
+        return abort(401, message="Unauthorized access")
 
-def send_401():
-    return abort(401, message="Unauthorized access")
+    def send_500(self, error, data=None):
+        body = {"error": repr(error)}
+        if data:
+            body = {**data, **body}
+        return (body, 500)
