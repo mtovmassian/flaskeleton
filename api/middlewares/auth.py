@@ -1,7 +1,7 @@
 import jwt
 from datetime import datetime
 from datetime import timedelta
-from app.middlewares.response import Response
+from api.middlewares.response import Response
 
 
 class Auth:
@@ -12,9 +12,9 @@ class Auth:
         def decorator(request_handler):
             def wrapper(request_context):
                 """
-                    REPLACE AFTER YOUR OWN AUTH LOGIC
+                    REPLACE AFTER WITH YOUR OWN AUTH LOGIC
                 """
-                token = request.headers.get('Authorization')
+                token = request.cookies.get("X-Access-Token")
                 if token:
                     try:
                         secret_key = "flaskeleton"
@@ -22,11 +22,23 @@ class Auth:
                         return request_handler(request_context)
                     except Exception as error:
                         pass
-                return self.res.send_401()
+                return self.res.send_401(error="Unauthorized access")
             return wrapper
         return decorator
 
-    def generate_token(self):
+    def set_access_token(self):
+        expiration = datetime.utcnow() + timedelta(days=1)
+        token = self.generate_access_token(expiration)
+        x_access_token_cookie = "X-Access-Token={token}; Expires={exp}".format(
+            token=token, exp=expiration.strftime("%a, %d %b %Y %H:%M:%S GMT")
+        )
+        return self.res.send_200(
+            data={"token": token},
+            headers={"Set-Cookie": x_access_token_cookie}
+        )
+
+    @staticmethod
+    def generate_access_token(expiration):
         """
             REPLACE AFTER WITH YOUR OWN TOKEN GENERATION LOGIC
         """
@@ -36,7 +48,6 @@ class Auth:
             "firstname": "flaskeleton",
             "lastname": "flaskeleton"
         }
-        token_expiration = datetime.utcnow() + timedelta(days=1)
-        playload = {**user, "exp": token_expiration}
+        playload = {**user, "exp": expiration}
         token = jwt.encode(playload, secret_key, algorithm='HS256').decode()
         return token

@@ -4,8 +4,8 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
 import argparse
-from app.config.config import Config
-from app.dao.dao import Dao
+from api.config.config import Config
+from api.dao.dao import Dao
 
 
 def parse_args():
@@ -26,22 +26,25 @@ class Server:
         self.HOST = self.config.get("server.host")
         self.PORT = int(self.config.get("server.port"))
         self.DEBUG_MODE = bool(int(self.config.get("server.debug_mode")))
-        self.CONTEXT = {
-            # Use context to share singletons through your application
-            "config": self.config,
-            "dao": Dao(self.config),
-        }
 
     def start(self):
         app = Flask(__name__)
         CORS(app)
         api = Api(app)
 
-        from app.resources.version import Version
-        Version.set_context(self.CONTEXT)
+        CONTEXT = {
+            # Use context to share singletons through your application
+            "config": self.config,
+            "dao": Dao(self.config),
+            "logger": app.logger
+        }
+
+        from api.resources.version import Version
+        Version.set_context(CONTEXT)
         api.add_resource(Version, "/version")
 
-        from app.resources.login import Login
+        from api.resources.login import Login
+        Login.set_context(CONTEXT)
         api.add_resource(Login, "/login")
 
         app.run(
