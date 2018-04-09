@@ -1,14 +1,11 @@
 from flask import request
 from flask_restful import Resource
-from api.middlewares.auth import Auth
-from api.middlewares.response import Response
+from api.middlewares import auth
+from api.middlewares import responses as res
 import hashlib
 
 
 class Login(Resource):
-
-    res = Response()
-    auth = Auth()
 
     @classmethod
     def set_context(cls, context):
@@ -21,12 +18,19 @@ class Login(Resource):
             """
             username = request.json["username"]
             password = request.json["password"]
+            # TODO: Remove and implement your own user data access logic >>>>
             username_stored = "flaskeleton"
             password_stored = "603693520ca13d90fc0ff2d13969c1ee"
+            user = {
+                "username": "flaskeleton",
+                "firstname": "flaskeleton",
+                "lastname": "flaskeleton"
+            }
+            # <<<<
             if username == username_stored:
                 if hashlib.md5(password.encode()).hexdigest() == password_stored:
-                    return self.auth.set_access_token()
-            return self.res.send_400(error="Bad credentials")
+                    return auth.set_access_token(infos=user)
+            return res.send_400(error="Bad credentials")
         except Exception as error:
             self.logger.error(error)
-            return self.res.send_500(error)
+            return res.send_500(error)

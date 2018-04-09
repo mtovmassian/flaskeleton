@@ -47,6 +47,11 @@ class Server:
         Login.set_context(CONTEXT)
         api.add_resource(Login, "/login")
 
+        from api.resources.demo.todolist import TodoList
+        TodoList.set_context(CONTEXT)
+        TodoList.init_db()
+        api.add_resource(TodoList, "/todo-list")
+
         app.run(
             host=self.HOST,
             port=self.PORT,
