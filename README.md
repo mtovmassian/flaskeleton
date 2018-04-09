@@ -32,3 +32,6 @@ $ pipenv run python server.py -c PROD
 # In test environment
 $ pipenv run python server.py -c TEST
 ```
+
+### Authors
+    Martin Tovmassian <martin.tovmassian@protonmail.com>
