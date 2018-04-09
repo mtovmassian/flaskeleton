@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from api.middlewares import auth
-from api.middlewares import responses as res
+from api.middlewares import response as res
 import hashlib
 
 

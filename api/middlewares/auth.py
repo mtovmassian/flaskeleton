@@ -7,7 +7,7 @@ import jwt
 from datetime import datetime
 from datetime import timedelta
 from typing import Callable
-from api.middlewares import responses as res
+from api.middlewares import response as res
 
 
 ACCESS_TOKEN_NAME = "X-Access-Token"
