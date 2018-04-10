@@ -1,6 +1,4 @@
-from flask import request
 from flask_restful import Resource
-from api.middlewares import auth
 from api.middlewares import response as res
 
 
@@ -11,7 +9,6 @@ class Version(Resource):
         cls.config = context["config"]
         cls.logger = context["logger"]
 
-    @auth.login_required(request)
     def get(self):
         try:
             data = {

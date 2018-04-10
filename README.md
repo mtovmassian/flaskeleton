@@ -1,7 +1,7 @@
 # Flaskeleton: Flask-RESTful starter kit
  Flaskeleton is a starter kit for [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/) applications. It provides code structure and basic authentication system based on [Json Web Token](https://jwt.io/).
 
-<img src="https://fr.tintin.com/images/tintin/persos/rascar/C1232C3.jpg" alt="Drawing" style="width:100%;"/>
+![](https://fr.tintin.com/images/tintin/persos/rascar/C1232C3.jpg)
 
 ## Getting started
 ### Prerequisites

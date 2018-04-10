@@ -40,11 +40,10 @@ class TodoList(Resource):
     def post(self):
         try:
             todo_list = self.read_db()
-            new_todos = request.json
-            for new_todo in new_todos:
-                todo_list.append({"id": self.gen_uuid(), "what": new_todo})
-            self.write_db(todo_list)
-            return res.send_200(data={"todo_list": todo_list})
+            new_todos = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.json]
+            todo_list_updated = [*todo_list, *new_todos]
+            self.write_db(todo_list_updated)
+            return res.send_200(data={"todo_list": todo_list_updated})
         except Exception as error:
             self.logger.error(error)
             return res.send_500(error)
@@ -52,7 +51,7 @@ class TodoList(Resource):
     @auth.login_required(request)
     def put(self):
         try:
-            todo_list = []
+            todo_list = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.json]
             self.write_db(todo_list)
             return res.send_200(data={"todo_list": todo_list})
         except Exception as error:
