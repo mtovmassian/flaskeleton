@@ -25,12 +25,7 @@ You will find a configuration file under `api/config/conf.cfg`. Three profiles a
 ### Launch server
 Run this command into the `flaskeleton` directory:
 ```bash
-# In development environment
-$ pipenv run python server.py
-# In production environment
-$ pipenv run python server.py -c PROD
-# In test environment
-$ pipenv run python server.py -c TEST
+$ pipenv run python server.py -c <config profile>
 ```
 
 ### Todo list demo
