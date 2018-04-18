@@ -58,7 +58,7 @@ class TodoList(Resource):
             self.logger.error(error)
             return res.send_500(error)
 
-    @auth.login_required(request)
+    @auth.admin_only(request)
     def delete(self):
         try:
             todo_list = self.read_db()

@@ -16,20 +16,34 @@ JWT_SECRET_KEY = "flaskeleton"  # TODO: Change and externalize secret key
 
 def login_required(request) -> Callable:
     """
-        Used as a decorator.
-        Control user authentication before resource consumption by checking
-        JWT token validity.
+        Used as a decorator. Control user authentication before resource
+        consumption by checking JWT token validity.
     """
     def decorator(request_handler: Callable) -> Callable:
         def wrapper(request_context):
             token = extract_token(request)
             if token:
-                try:
-                    jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
+                playload = decode_playload(token)
+                if not isinstance(playload, Exception):
                     return request_handler(request_context)
-                except Exception as error:
-                    pass
             return res.send_401(error="Unauthorized access")
+        return wrapper
+    return decorator
+
+
+def admin_only(request) -> Callable:
+    """
+        Used as a decorator. Control user authentication and user admin
+        privillege before resource consumption by checking JWT token validity.
+    """
+    def decorator(request_handler: Callable) -> Callable:
+        def wrapper(request_context):
+            token = extract_token(request)
+            if token:
+                playload = decode_playload(token)
+                if not isinstance(playload, Exception) and playload.get("is_admin", False):
+                    return request_handler(request_context)
+            return res.send_401(error="Restricted access")
         return wrapper
     return decorator
 
@@ -44,6 +58,16 @@ def extract_token(request) -> str:
     elif request.headers.get(ACCESS_TOKEN_NAME):
         token = request.headers.get(ACCESS_TOKEN_NAME)
     return token
+
+
+def decode_playload(token: str) -> any:
+    """
+        Decode data from JWT token
+    """
+    try:
+        return jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
+    except Exception:
+        return Exception("TOKEN_CORRUPTION")
 
 
 def set_access_token(infos: any):

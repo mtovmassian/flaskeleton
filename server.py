@@ -50,7 +50,7 @@ class Server:
         from api.resources.demo.todolist import TodoList
         TodoList.set_context(CONTEXT)
         TodoList.init_db()
-        api.add_resource(TodoList, "/todo-list")
+        api.add_resource(TodoList, "/demo/todo-list")
 
         app.run(
             host=self.HOST,

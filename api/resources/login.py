@@ -16,15 +16,18 @@ class Login(Resource):
             """
                 REPLACE AFTER WITH YOU OWN LOGIN LOGIC
             """
-            username = request.json["username"]
-            password = request.json["password"]
+            body = request.json
+            username = body["username"]
+            password = body["password"]
             # TODO: Remove and implement your own user data access logic >>>>
             username_stored = "flaskeleton"
             password_stored = "603693520ca13d90fc0ff2d13969c1ee"
+            is_admin = body["is_admin"] if "is_admin" in body.keys() else False
             user = {
                 "username": "flaskeleton",
                 "firstname": "flaskeleton",
-                "lastname": "flaskeleton"
+                "lastname": "flaskeleton",
+                "is_admin": is_admin
             }
             # <<<<
             if username == username_stored:
