@@ -69,10 +69,10 @@ Response should looks like this:
 ```
 Now you have an access token and can you use it in the next *todo list* requests.
 
-#### ● PUT `/demo/todo-list`
-**Create** a prefilled todo list with a *PUT* request:
+#### ● POST `/demo/todo-list`
+**Create** a prefilled todo list with a *POST* request:
 ```bash
-$ curl -X PUT http://127.0.0.1:5005/todo-list \
+$ curl -X POST http://127.0.0.1:5005/demo/todo-list \
 -H 'content-type: application/json' \
 -H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8' \
 -d '["make my code correct", "make my code clear"]'
@@ -97,7 +97,7 @@ Response should looks like this:
 #### ● GET `/demo/todo-list`
 **Read** todo list items with a *GET* request and passed item's *id* as argument to select specific element:
 ```bash
-$ curl -X GET http://127.0.0.1:5005/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
+$ curl -X GET http://127.0.0.1:5005/demo/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
 -H 'content-type: application/json' \
 -H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8'
 ```
@@ -114,10 +114,10 @@ Response should looks like this:
 }
 ```
 
-#### ● POST `/demo/todo-list`
-**Update** todo list with new items with a *POST* request:
+#### ● PUT `/demo/todo-list`
+**Update** todo list with new items with a *PUT* request:
 ```bash
-$ curl -X POST http://127.0.0.1:5005/todo-list \
+$ curl -X PUT http://127.0.0.1:5005/demo/todo-list \
 -H 'content-type: application/json' \
 -H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8' \
 -d '["make my code concise", "make my code fast"]'
@@ -167,7 +167,7 @@ Response should looks like this:
 ```
 **Delete** item from todo list with a *DELETE* request (X-Access-Token should be updated with new one) and item's *id* passed as argument.
 ```bash
-$ curl -X DELETE http://127.0.0.1:5005/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
+$ curl -X DELETE http://127.0.0.1:5005/demo/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
 -H 'content-type: application/json' \
 -H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiaXNfYWRtaW4iOnRydWUsImV4cCI6MTUyNDEyODQ1OX0.H4hXusyj2SpcuTOUkfOApVfs_sA88qJRlrOtL6BMO9g'
 ```

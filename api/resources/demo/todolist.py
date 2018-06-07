@@ -37,7 +37,7 @@ class TodoList(Resource):
             return res.send_500(error)
 
     @auth.login_required(request)
-    def post(self):
+    def put(self):
         try:
             todo_list = self.read_db()
             new_todos = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.json]
@@ -49,7 +49,7 @@ class TodoList(Resource):
             return res.send_500(error)
 
     @auth.login_required(request)
-    def put(self):
+    def post(self):
         try:
             todo_list = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.json]
             self.write_db(todo_list)
