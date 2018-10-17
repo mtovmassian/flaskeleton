@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from api.middlewares import auth
-from api.middlewares import response as res
+from api.middlewares.rest_response import RESTResponse
 import hashlib
 
 
@@ -16,7 +16,7 @@ class Login(Resource):
             """
                 REPLACE AFTER WITH YOU OWN LOGIN LOGIC
             """
-            body = request.json
+            body = request.get_json()
             username = body["username"]
             password = body["password"]
             # TODO: Remove and implement your own user data access logic >>>>
@@ -33,7 +33,7 @@ class Login(Resource):
             if username == username_stored:
                 if hashlib.md5(password.encode()).hexdigest() == password_stored:
                     return auth.set_access_token(infos=user)
-            return res.send_400(error="Bad credentials")
+            return RESTResponse(error="Bad credentials.").UNAUTHORIZED()
         except Exception as error:
             self.logger.error(error)
-            return res.send_500(error)
+            return RESTResponse(error=str(error)).SERVER_ERROR()

@@ -7,7 +7,7 @@ import jwt
 from datetime import datetime
 from datetime import timedelta
 from typing import Callable
-from api.middlewares import response as res
+from api.middlewares.rest_response import RESTResponse
 
 
 ACCESS_TOKEN_NAME = "X-Access-Token"
@@ -26,7 +26,7 @@ def login_required(request) -> Callable:
                 playload = decode_playload(token)
                 if not isinstance(playload, Exception):
                     return request_handler(request_context)
-            return res.send_401(error="Unauthorized access")
+            return RESTResponse(error="Unauthorized access.").UNAUTHORIZED()
         return wrapper
     return decorator
 
@@ -43,7 +43,7 @@ def admin_only(request) -> Callable:
                 playload = decode_playload(token)
                 if not isinstance(playload, Exception) and playload.get("is_admin", False):
                     return request_handler(request_context)
-            return res.send_401(error="Restricted access")
+            return RESTResponse(error="Restricted access.").FORBIDDEN()
         return wrapper
     return decorator
 
@@ -76,14 +76,12 @@ def set_access_token(infos: any):
     """
     expiration = datetime.utcnow() + timedelta(days=1)
     token = generate_access_token(infos, expiration)
-    access_token_cookie = "{cookie_name}={token}; Expires={exp}".format(
-        cookie_name=ACCESS_TOKEN_NAME, token=token,
-        exp=expiration.strftime("%a, %d %b %Y %H:%M:%S GMT")
-    )
-    return res.send_200(
-        data={"token": token},
-        headers={"Set-Cookie": access_token_cookie}
-    )
+    # access_token_cookie = "{cookie_name}={token}; Expires={exp}".format(
+    #     cookie_name=ACCESS_TOKEN_NAME, token=token,
+    #     exp=expiration.strftime("%a, %d %b %Y %H:%M:%S GMT")
+    # )
+    # headers={"Set-Cookie": access_token_cookie}
+    return RESTResponse(data={"token": token}).OK()
 
 
 def generate_access_token(infos: any, expiration: int) -> str:

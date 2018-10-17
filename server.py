@@ -26,17 +26,15 @@ class Server:
         self.HOST = self.config.get("server.host")
         self.PORT = int(self.config.get("server.port"))
         self.DEBUG_MODE = bool(int(self.config.get("server.debug_mode")))
-
-    def start(self):
-        app = Flask(__name__)
-        CORS(app)
-        api = Api(app)
+        self.app = Flask(__name__)
+        CORS(self.app)
+        api = Api(self.app)
 
         CONTEXT = {
             # Use context to share singletons through your application
             "config": self.config,
             "dao": Dao(self.config),
-            "logger": app.logger
+            "logger": self.app.logger
         }
 
         from api.resources.version import Version
@@ -52,7 +50,8 @@ class Server:
         TodoList.init_db()
         api.add_resource(TodoList, "/demo/todo-list")
 
-        app.run(
+    def start(self):
+        self.app.run(
             host=self.HOST,
             port=self.PORT,
             debug=self.DEBUG_MODE,

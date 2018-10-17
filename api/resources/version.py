@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from api.middlewares import response as res
+from api.middlewares.rest_response import RESTResponse
 
 
 class Version(Resource):
@@ -15,7 +15,7 @@ class Version(Resource):
                 "name": self.config.get("server.name"),
                 "version": self.config.get("server.version")
             }
-            return res.send_200(data)
+            return RESTResponse(data=data).OK()
         except Exception as error:
             self.logger.error(error)
-            return res.send_500(error)
+            return RESTResponse(error=str(error)).SERVER_ERROR()

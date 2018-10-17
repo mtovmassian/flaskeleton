@@ -3,12 +3,12 @@ from flask_restful import Resource
 import pickle
 import uuid
 from api.middlewares import auth
-from api.middlewares import response as res
+from api.middlewares.rest_response import RESTResponse
 
 
 class TodoList(Resource):
 
-    DB_PATH = "./api/resources/demo/todolist"
+    DB_PATH = "todolist"
 
     @classmethod
     def set_context(cls, context):
@@ -31,32 +31,32 @@ class TodoList(Resource):
                 }
             else:
                 data = {"todo_list": todo_list}
-            return res.send_200(data=data)
+            return RESTResponse(data=data).OK()
         except Exception as error:
             self.logger.error(error)
-            return res.send_500(error)
+            return RESTResponse(error=str(error)).SERVER_ERROR()
 
     @auth.login_required(request)
     def put(self):
         try:
             todo_list = self.read_db()
-            new_todos = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.json]
+            new_todos = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.get_json()]
             todo_list_updated = [*todo_list, *new_todos]
             self.write_db(todo_list_updated)
-            return res.send_200(data={"todo_list": todo_list_updated})
+            return RESTResponse(data={"todo_list": todo_list_updated}).OK()
         except Exception as error:
             self.logger.error(error)
-            return res.send_500(error)
+            return RESTResponse(error=str(error)).SERVER_ERROR()
 
     @auth.login_required(request)
     def post(self):
         try:
-            todo_list = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.json]
+            todo_list = [{"id": self.gen_uuid(), "what": new_todo} for new_todo in request.get_json()]
             self.write_db(todo_list)
-            return res.send_200(data={"todo_list": todo_list})
+            return RESTResponse(data={"todo_list": todo_list}).OK()
         except Exception as error:
             self.logger.error(error)
-            return res.send_500(error)
+            return RESTResponse(error=str(error)).SERVER_ERROR()
 
     @auth.admin_only(request)
     def delete(self):
@@ -65,10 +65,10 @@ class TodoList(Resource):
             todo_id = request.args["id"]
             todo_list = [todo for todo in todo_list if todo["id"] != todo_id]
             self.write_db(todo_list)
-            return res.send_200(data={"todo_list": todo_list})
+            return RESTResponse(data={"todo_list": todo_list}).OK()
         except Exception as error:
             self.logger.error(error)
-            return res.send_500(error)
+            return RESTResponse(error=str(error)).SERVER_ERROR()
 
     @classmethod
     def gen_uuid(self):
