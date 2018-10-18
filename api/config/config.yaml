@@ -1,0 +1,35 @@
+dev:
+  app:
+    name: "flaskeleton"
+    version: "1.0.0"
+    host: "127.0.0.1"
+    port: 5005
+    debug_mode: 1
+  db:
+    name: "flaskeletondb"
+    host: "127.0.0.1"
+    port: 0000
+
+prod:
+  app:
+    name: "flaskeleton"
+    version: "1.0.0"
+    host: "127.0.0.1"
+    port: 5005
+    debug_mode: 0
+  db:
+    name: "flaskeletondb"
+    host: "127.0.0.1"
+    port: 0000
+
+test:
+  app:
+    name: "flaskeleton"
+    version: "1.0.0"
+    host: "127.0.0.1"
+    port: 5005
+    debug_mode: 1
+  db:
+    name: "flaskeletondb"
+    host: "127.0.0.1"
+    port: 0000

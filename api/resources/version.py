@@ -1,19 +1,20 @@
 from flask_restful import Resource
 from api.middlewares.rest_response import RESTResponse
+from api.config.config import Config
 
 
 class Version(Resource):
 
     @classmethod
     def set_context(cls, context):
-        cls.config = context["config"]
+        cls.config: Config = context["config"]
         cls.logger = context["logger"]
 
     def get(self):
         try:
             data = {
-                "name": self.config.get("server.name"),
-                "version": self.config.get("server.version")
+                "name": self.config.get_app_name(),
+                "version": self.config.get_app_version()
             }
             return RESTResponse(data=data).OK()
         except Exception as error:

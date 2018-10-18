@@ -12,7 +12,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-c", "--config", type=str,
-        help="Config profile DEV|PROD|TEST (default: DEV)", default="DEV"
+        help="Config profile dev|prod|test (default: dev)", default="dev"
     )
     args = parser.parse_args()
     config_profile = args.config
@@ -22,10 +22,10 @@ def parse_args():
 class Server:
 
     def __init__(self, config_profile: str):
-        self.config = Config(config_profile)
-        self.HOST = self.config.get("server.host")
-        self.PORT = int(self.config.get("server.port"))
-        self.DEBUG_MODE = bool(int(self.config.get("server.debug_mode")))
+        self.config: Config = Config(config_profile)
+        self.HOST: str = self.config.get_app_host()
+        self.PORT: int = self.config.get_app_port()
+        self.DEBUG_MODE: int = bool(self.config.get_app_debug_mode())
         self.app = Flask(__name__)
         CORS(self.app)
         api = Api(self.app)
