@@ -6,8 +6,8 @@ class Config:
 
     def __init__(self, profile):
         self.profile = profile
-        confile_file_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
-        with open(confile_file_path, 'r') as config_file:
+        config_file_path = os.path.join(os.path.dirname(__file__), 'config.yaml')
+        with open(config_file_path, 'r') as config_file:
             self.config = yaml.load(config_file)
 
     def get_app(self) -> Dict[str, any]:

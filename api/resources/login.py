@@ -33,7 +33,7 @@ class Login(Resource):
             if username == username_stored:
                 if hashlib.md5(password.encode()).hexdigest() == password_stored:
                     return auth.set_access_token(infos=user)
-            return RESTResponse(error="Bad credentials.").UNAUTHORIZED()
+            return RESTResponse({"error":"Bad credentials."}).UNAUTHORIZED()
         except Exception as error:
             self.logger.error(error)
-            return RESTResponse(error=str(error)).SERVER_ERROR()
+            return RESTResponse({"error":str(error)}).SERVER_ERROR()

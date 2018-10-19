@@ -9,7 +9,7 @@ def get_authentication_header(is_admin=False) -> dict:
     credentials = {"username": "flaskeleton", "password": "flaskeleton", "is_admin": is_admin}
     response = app.post('/login', data=json.dumps(credentials), content_type='application/json')
     jwt = json.loads(response.get_data())["token"]
-    return {"Cookie": "X-Access-Token=" + jwt}
+    return {"Authorization": "Bearer " + jwt}
 
 def test_get_version_should_return_api_version():
     app = Server(config_profile="test").app.test_client()
@@ -76,6 +76,7 @@ def test_delete_todolist_should_remove_item_from_todolist():
     body1 = json.loads(response1.get_data())
     assert len(body1["todo_list"]) == 1
     item_id = body1["todo_list"][0]["id"]
+    print(item_id)
 
     response2 = app.delete(
         '/demo/todo-list?id={0}'.format(item_id),

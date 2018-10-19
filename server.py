@@ -22,6 +22,7 @@ def parse_args():
 class Server:
 
     def __init__(self, config_profile: str):
+        os.environ.setdefault("config_profile", config_profile)
         self.config: Config = Config(config_profile)
         self.HOST: str = self.config.get_app_host()
         self.PORT: int = self.config.get_app_port()
@@ -32,7 +33,6 @@ class Server:
 
         CONTEXT = {
             # Use context to share singletons through your application
-            "config": self.config,
             "dao": Dao(self.config),
             "logger": self.app.logger
         }
@@ -45,9 +45,8 @@ class Server:
         Login.set_context(CONTEXT)
         api.add_resource(Login, "/login")
 
-        from api.resources.demo.todolist import TodoList
+        from api.resources.todolist import TodoList
         TodoList.set_context(CONTEXT)
-        TodoList.init_db()
         api.add_resource(TodoList, "/demo/todo-list")
 
     def start(self):
@@ -60,7 +59,6 @@ class Server:
 
 
 if __name__ == '__main__':
-    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     config_profile = parse_args()
     server = Server(config_profile)
     server.start()

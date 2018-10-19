@@ -4,13 +4,14 @@
 
 
 import jwt
+import re
 from datetime import datetime
 from datetime import timedelta
 from typing import Callable
 from api.middlewares.rest_response import RESTResponse
 
 
-ACCESS_TOKEN_NAME = "X-Access-Token"
+AUTHORIZATION_HEADER = "Authorization"
 JWT_SECRET_KEY = "flaskeleton"  # TODO: Change and externalize secret key
 
 
@@ -26,7 +27,7 @@ def login_required(request) -> Callable:
                 playload = decode_playload(token)
                 if not isinstance(playload, Exception):
                     return request_handler(request_context)
-            return RESTResponse(error="Unauthorized access.").UNAUTHORIZED()
+            return RESTResponse({"error":"Unauthorized access."}).UNAUTHORIZED()
         return wrapper
     return decorator
 
@@ -43,22 +44,27 @@ def admin_only(request) -> Callable:
                 playload = decode_playload(token)
                 if not isinstance(playload, Exception) and playload.get("is_admin", False):
                     return request_handler(request_context)
-            return RESTResponse(error="Restricted access.").FORBIDDEN()
+            return RESTResponse({"error":"Restricted access."}).FORBIDDEN()
         return wrapper
     return decorator
-
 
 def extract_token(request) -> str:
     """
         Extract token from request by checking cookies and headers.
     """
-    token = None
-    if request.cookies.get(ACCESS_TOKEN_NAME):
-        token = request.cookies.get(ACCESS_TOKEN_NAME)
-    elif request.headers.get(ACCESS_TOKEN_NAME):
-        token = request.headers.get(ACCESS_TOKEN_NAME)
-    return token
+    token = ""
+    if request.cookies.get(AUTHORIZATION_HEADER):
+        token = request.cookies.get(AUTHORIZATION_HEADER)
+    elif request.headers.get(AUTHORIZATION_HEADER):
+        token = request.headers.get(AUTHORIZATION_HEADER)
+    return clean_token(token)
 
+def clean_token(token: str) -> str:
+    cleaned_token = token
+    bearer_name = re.compile(r"^Bearer\s.+")
+    if bool(bearer_name.match(token)):
+        cleaned_token = token.split(" ")[1]
+    return cleaned_token
 
 def decode_playload(token: str) -> any:
     """
@@ -68,7 +74,6 @@ def decode_playload(token: str) -> any:
         return jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
     except Exception:
         return Exception("TOKEN_CORRUPTION")
-
 
 def set_access_token(infos: any):
     """
@@ -81,8 +86,7 @@ def set_access_token(infos: any):
     #     exp=expiration.strftime("%a, %d %b %Y %H:%M:%S GMT")
     # )
     # headers={"Set-Cookie": access_token_cookie}
-    return RESTResponse(data={"token": token}).OK()
-
+    return RESTResponse({"token": token}).OK()
 
 def generate_access_token(infos: any, expiration: int) -> str:
     playload = {**infos, "exp": expiration}

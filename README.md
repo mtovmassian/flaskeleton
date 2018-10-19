@@ -28,6 +28,11 @@ Run this command into the `flaskeleton` directory:
 $ pipenv run python server.py -c <config profile>
 ```
 
+### Launch tests
+```bash
+$ pipenv run pytest
+```
+
 ### Todo list demo
 To get familiar with how a Flask-RESTful application works you can run the *todo list* demo and investigate the code under `api/resources/demo`.
 
@@ -42,8 +47,8 @@ Response should looks like this:
 ```bash
 {
     "name": "flaskeleton",
-    "version": "0.0.1",
-    "error": null
+    "version": "1.0.0",
+    "status_code": 200
 }
 ```
 #### ● POST `/login`
@@ -64,7 +69,7 @@ Response should looks like this:
 ```bash
 {
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8",
-    "error": null
+    "status_code": 200
 }
 ```
 Now you have an access token and can you use it in the next *todo list* requests.
@@ -74,7 +79,7 @@ Now you have an access token and can you use it in the next *todo list* requests
 ```bash
 $ curl -X POST http://127.0.0.1:5005/demo/todo-list \
 -H 'content-type: application/json' \
--H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8' \
+-H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8' \
 -d '["make my code correct", "make my code clear"]'
 ```
 Response should looks like this:
@@ -90,7 +95,7 @@ Response should looks like this:
             "what": "make my code clear"
         }
     ],
-    "error": null
+    "status_code": 200
 }
 ```
 
@@ -99,7 +104,7 @@ Response should looks like this:
 ```bash
 $ curl -X GET http://127.0.0.1:5005/demo/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
 -H 'content-type: application/json' \
--H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8'
+-H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8'
 ```
 Response should looks like this:
 ```bash
@@ -110,7 +115,7 @@ Response should looks like this:
             "what": "make my code correct"
         }
     ],
-    "error": null
+    "status_code": 200
 }
 ```
 
@@ -119,7 +124,7 @@ Response should looks like this:
 ```bash
 $ curl -X PUT http://127.0.0.1:5005/demo/todo-list \
 -H 'content-type: application/json' \
--H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8' \
+-H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8' \
 -d '["make my code concise", "make my code fast"]'
 ```
 Response should looks like this:
@@ -143,7 +148,7 @@ Response should looks like this:
             "what": "make my code fast"
         }
     ],
-    "error": null
+    "status_code": 200
 }
 ```
 
@@ -162,14 +167,14 @@ Response should looks like this:
 ```bash
 {
     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiaXNfYWRtaW4iOnRydWUsImV4cCI6MTUyNDEyODQ1OX0.H4hXusyj2SpcuTOUkfOApVfs_sA88qJRlrOtL6BMO9g",
-    "error": null
+    "status_code": 200
 }
 ```
 **Delete** item from todo list with a *DELETE* request (X-Access-Token should be updated with new one) and item's *id* passed as argument.
 ```bash
 $ curl -X DELETE http://127.0.0.1:5005/demo/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
 -H 'content-type: application/json' \
--H 'Cookie: X-Access-Token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiaXNfYWRtaW4iOnRydWUsImV4cCI6MTUyNDEyODQ1OX0.H4hXusyj2SpcuTOUkfOApVfs_sA88qJRlrOtL6BMO9g'
+-H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiaXNfYWRtaW4iOnRydWUsImV4cCI6MTUyNDEyODQ1OX0.H4hXusyj2SpcuTOUkfOApVfs_sA88qJRlrOtL6BMO9g'
 ```
 Response should looks like this:
 ```bash
@@ -188,7 +193,7 @@ Response should looks like this:
             "what": "make my code fast"
         }
     ],
-    "error": null
+    "status_code": 200
 }
 ```
 

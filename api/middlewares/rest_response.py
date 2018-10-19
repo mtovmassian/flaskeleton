@@ -4,12 +4,8 @@
 
 class RESTResponse:
 
-    def __init__(self, data: dict={}, error: str=None, headers: dict={}):
-        self.body = {}
-        if data:
-            self.body = {**self.body, **data}
-        if error:
-            self.body["error"] = error
+    def __init__(self, body: dict={}, headers: dict={}):
+        self.body = body
         self.headers = headers
 
     def OK(self):
