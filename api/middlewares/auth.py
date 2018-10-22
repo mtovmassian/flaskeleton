@@ -13,6 +13,7 @@ from api.middlewares.rest_response import RESTResponse
 
 AUTHORIZATION_HEADER = "Authorization"
 JWT_SECRET_KEY = "flaskeleton"  # TODO: Change and externalize secret key
+ALGORITHM = "HS256"
 
 
 def login_required(request) -> Callable:
@@ -71,24 +72,11 @@ def decode_playload(token: str) -> any:
         Decode data from JWT token
     """
     try:
-        return jwt.decode(token, JWT_SECRET_KEY, algorithms=["HS256"])
+        return jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
     except Exception:
         return Exception("TOKEN_CORRUPTION")
 
-def set_access_token(infos: any):
-    """
-        Manage access token response.
-    """
-    expiration = datetime.utcnow() + timedelta(days=1)
-    token = generate_access_token(infos, expiration)
-    # access_token_cookie = "{cookie_name}={token}; Expires={exp}".format(
-    #     cookie_name=ACCESS_TOKEN_NAME, token=token,
-    #     exp=expiration.strftime("%a, %d %b %Y %H:%M:%S GMT")
-    # )
-    # headers={"Set-Cookie": access_token_cookie}
-    return RESTResponse({"token": token}).OK()
-
 def generate_access_token(infos: any, expiration: int) -> str:
     playload = {**infos, "exp": expiration}
-    token = jwt.encode(playload, JWT_SECRET_KEY, algorithm="HS256").decode()
+    token = jwt.encode(playload, JWT_SECRET_KEY, algorithm=ALGORITHM).decode()
     return token

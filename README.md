@@ -17,10 +17,10 @@ $ pipenv install --python 3.6
 
 ### Configuration
 
-You will find a configuration file under `api/config/conf.cfg`. Three profiles are stored:
-  - DEV: local environment
-  - PROD: production environment
-  - TEST: test environment
+You will find a configuration file under `api/config/config.yml`. Three profiles are stored:
+  - dev: local environment
+  - prod: production environment
+  - test: test environment
 
 ### Launch server
 Run this command into the `flaskeleton` directory:
@@ -30,7 +30,7 @@ $ pipenv run python server.py -c <config profile>
 
 ### Launch tests
 ```bash
-$ pipenv run pytest
+$ pipenv run pytest -s
 ```
 
 ### Todo list demo

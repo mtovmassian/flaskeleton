@@ -7,14 +7,14 @@ class TodoListService:
 
     def __init__(self):
         if os.path.isfile(self.TODO_LIST_FILE_PATH) is not True:
-            self.write_todo_list("1,clean my code\n2,test my code")
+            self.create_todo_list(["clean my code", "test my code"])
 
     def get_todo_list(self):
         lines = self.read_todo_list().split("\n")
         if len(lines) == 1 and lines[0] == '':
             return []
         else:
-            return [{"id": item.split(",")[0], "what": item.split(",")[1]} for item in lines]
+            return [{"id": line.split(",")[0], "what": line.split(",")[1]} for line in lines]
 
     def create_todo_list(self, todos):
         todo_list = "\n".join(["{0},{1}".format(self.gen_uuid(), todo) for todo in todos])
