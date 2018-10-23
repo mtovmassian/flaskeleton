@@ -5,15 +5,16 @@ from api.middlewares.rest_response import RESTResponse
 import hashlib
 from datetime import datetime
 from datetime import timedelta
+from typing import Dict
 
 
 class Login(Resource):
 
     @classmethod
-    def set_context(cls, context):
+    def set_context(cls, context) -> None:
         cls.logger = context["logger"]
 
-    def post(self):
+    def post(self) -> None:
         try:
             body = request.get_json()
             username = body["username"]
@@ -31,7 +32,7 @@ class Login(Resource):
             self.logger.error(error)
             return RESTResponse({"error":str(error)}).SERVER_ERROR()
 
-    def find_user_by_username(self, username):
+    def find_user_by_username(self, username: str) -> Dict[str,str]:
         if (username == "flaskeleton"):
             return {
                 "username": "flaskeleton",

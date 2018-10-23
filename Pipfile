@@ -23,3 +23,9 @@ flask-cors = "*"
 pyjwt = "*"
 pytest = "*"
 pyyaml = "*"
+
+
+[scripts]
+
+start = "python server.py -c dev"
+tests = "pytest -s"

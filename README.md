@@ -27,10 +27,14 @@ Run this command into the `flaskeleton` directory:
 ```bash
 $ pipenv run python server.py -c <config profile>
 ```
+Or use this pipenv alias to directly launch the server in development mode:
+```bash
+$ pipenv run start
+```
 
 ### Launch tests
 ```bash
-$ pipenv run pytest -s
+$ pipenv run tests
 ```
 
 ### Todo list demo
