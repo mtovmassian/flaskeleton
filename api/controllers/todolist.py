@@ -10,16 +10,14 @@ from api.middlewares.rest_response import RESTResponse
 
 class TodoList(Resource):
 
-    tl_service = TodoListService()
-
-    @classmethod
-    def set_context(cls, context):
-        cls.logger = context["logger"]
+    def __init__(self, logger, db):
+        self.logger = logger
+        self.todo_list_service = TodoListService(db)
 
     @auth.login_required(request)
     def get(self):
         try:
-            todo_list = self.tl_service.get_todo_list()
+            todo_list = self.todo_list_service.get_todo_list()
             args = request.args
             if args and "id" in args:
                 todo_id = args["id"]
@@ -38,8 +36,8 @@ class TodoList(Resource):
     def put(self):
         try:
             todos = request.get_json()
-            self.tl_service.add_todos(todos)
-            return RESTResponse({"todo_list":  self.tl_service.get_todo_list()}).OK()
+            self.todo_list_service.add_todos(todos)
+            return RESTResponse({"todo_list": self.todo_list_service.get_todo_list()}).OK()
         except Exception as error:
             self.logger.error(error)
             return RESTResponse({"error":str(error)}).SERVER_ERROR()
@@ -48,8 +46,8 @@ class TodoList(Resource):
     def post(self):
         try:
             todos = request.get_json()
-            self.tl_service.create_todo_list(todos)
-            return RESTResponse({"todo_list": self.tl_service.get_todo_list()}).OK()
+            self.todo_list_service.create_todo_list(todos)
+            return RESTResponse({"todo_list": self.todo_list_service.get_todo_list()}).OK()
         except Exception as error:
             self.logger.error(error)
             return RESTResponse({"error":str(error)}).SERVER_ERROR()
@@ -58,8 +56,8 @@ class TodoList(Resource):
     def delete(self):
         try:
             todo_id = request.args["id"]
-            self.tl_service.delete_todo(todo_id)
-            return RESTResponse({"todo_list": ""}).OK()
+            self.todo_list_service.delete_todo(todo_id)
+            return RESTResponse({"todo_list": []}).OK()
         except Exception as error:
             self.logger.error(error)
             return RESTResponse({"error":str(error)}).SERVER_ERROR()

@@ -6,9 +6,8 @@ import os
 
 class Version(Resource):
 
-    @classmethod
-    def set_context(cls, context):
-        cls.logger = context["logger"]
+    def __init__(self, logger):
+        self.logger = logger
 
     def get(self):
         try:

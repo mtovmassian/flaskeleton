@@ -1,31 +1,23 @@
 [[source]]
-
 verify_ssl = true
 url = "https://pypi.python.org/simple"
 name = "pypi"
 
-
 [dev-packages]
-
 pylint = "*"
 
-
 [requires]
-
 python_version = "3.6"
 
-
 [packages]
-
 flask = "*"
 flask-restful = "*"
 flask-cors = "*"
 pyjwt = "*"
 pytest = "*"
 pyyaml = "*"
-
+sqlalchemy = "*"
 
 [scripts]
-
 start = "python server.py -c dev"
 tests = "pytest -s"
