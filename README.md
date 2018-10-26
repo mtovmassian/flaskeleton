@@ -38,7 +38,7 @@ $ pipenv run tests
 ```
 
 ### Todo list demo
-To get familiar with how a Flask-RESTful application works you can run the *todo list* demo and investigate the code under `api/resources/demo`.
+To get familiar with how a Flask-RESTful application works you can run the *todo list* demo and investigate the code under `api/resources/todolist.py`.
 
 The *todo list* demo will let you know how to implement basic CRUD operations and how to protect your resources by connecting them to a JWT authentication system.
 
@@ -188,15 +188,15 @@ Response should looks like this:
 {
     "todo_list": [
         {
-            "id": "2ce6086a-5bba-45f9-ae9c-7a05166e9705",
+            "id": "2",
             "what": "make my code clear"
         },
         {
-            "id": "7a50909c-d811-4000-a723-a02a182b85d7",
+            "id": "3",
             "what": "make my code concise"
         },
         {
-            "id": "07b37bc2-9c51-4c5e-b1f8-cc22e9797e7b",
+            "id": "4",
             "what": "make my code fast"
         }
     ],

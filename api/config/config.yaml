@@ -30,6 +30,6 @@ test:
     port: 5005
     debug_mode: 1
   db:
-    name: "flaskeleton.db"
+    name: "flaskeleton-test.db"
     host: "127.0.0.1"
     port: 0000
