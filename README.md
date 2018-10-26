@@ -91,11 +91,11 @@ Response should looks like this:
 {
     "todo_list": [
         {
-            "id": "b716cdd1-31f0-49c0-82cd-0f01acb4af3a",
+            "id": "1",
             "what": "make my code correct"
         },
         {
-            "id": "2ce6086a-5bba-45f9-ae9c-7a05166e9705",
+            "id": "2",
             "what": "make my code clear"
         }
     ],
@@ -104,9 +104,9 @@ Response should looks like this:
 ```
 
 #### ● GET `/demo/todo-list`
-**Read** todo list items with a *GET* request and passed item's *id* as argument to select specific element:
+**Read** todo list items with a *GET* request:
 ```bash
-$ curl -X GET http://127.0.0.1:5005/demo/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
+$ curl -X GET http://127.0.0.1:5005/demo/todo-list \
 -H 'content-type: application/json' \
 -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiZXhwIjoxNTIzNDQwMzk5fQ.4uEdaR6qUIg-76NcS2q40xXUJH3Plzl4fKwvRb5HEf8'
 ```
@@ -115,8 +115,12 @@ Response should looks like this:
 {
     "todo_list": [
         {
-            "id": "b716cdd1-31f0-49c0-82cd-0f01acb4af3a",
+            "id": "1",
             "what": "make my code correct"
+        },
+        {
+            "id": "2",
+            "what": "make my code clear"
         }
     ],
     "status_code": 200
@@ -136,19 +140,19 @@ Response should looks like this:
 {
     "todo_list": [
         {
-            "id": "b716cdd1-31f0-49c0-82cd-0f01acb4af3a",
+            "id": "1",
             "what": "make my code correct"
         },
         {
-            "id": "2ce6086a-5bba-45f9-ae9c-7a05166e9705",
+            "id": "2",
             "what": "make my code clear"
         },
         {
-            "id": "7a50909c-d811-4000-a723-a02a182b85d7",
+            "id": "3",
             "what": "make my code concise"
         },
         {
-            "id": "07b37bc2-9c51-4c5e-b1f8-cc22e9797e7b",
+            "id": "4",
             "what": "make my code fast"
         }
     ],
@@ -162,9 +166,8 @@ To illustrate privillege management this operation require an administrator role
 $ curl -X POST http://127.0.0.1:5005/login \
 -H 'content-type: application/json' \
 -d '{
-      "username": "flaskeleton",
-      "password": "flaskeleton",
-      "is_admin": "true"
+      "username": "admin",
+      "password": "admin",
 }'
 ```
 Response should looks like this:
@@ -174,9 +177,9 @@ Response should looks like this:
     "status_code": 200
 }
 ```
-**Delete** item from todo list with a *DELETE* request (X-Access-Token should be updated with new one) and item's *id* passed as argument.
+**Delete** item from todo list with a *DELETE* request (Authorization header should be updated with new token) and item's *id* passed as argument.
 ```bash
-$ curl -X DELETE http://127.0.0.1:5005/demo/todo-list?id=b716cdd1-31f0-49c0-82cd-0f01acb4af3a \
+$ curl -X DELETE http://127.0.0.1:5005/demo/todo-list?id=1 \
 -H 'content-type: application/json' \
 -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImZsYXNrZWxldG9uIiwiZmlyc3RuYW1lIjoiZmxhc2tlbGV0b24iLCJsYXN0bmFtZSI6ImZsYXNrZWxldG9uIiwiaXNfYWRtaW4iOnRydWUsImV4cCI6MTUyNDEyODQ1OX0.H4hXusyj2SpcuTOUkfOApVfs_sA88qJRlrOtL6BMO9g'
 ```

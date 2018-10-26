@@ -3,7 +3,6 @@ import sys
 import json
 from datetime import datetime
 from datetime import timedelta
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from server import Server
 from api.middlewares.auth import generate_access_token
 

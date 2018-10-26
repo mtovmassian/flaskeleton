@@ -36,13 +36,13 @@ class Server:
         self.CONTEXT["logger"] = Logger()
         self.CONTEXT["db"] = self.db
 
-        from api.controllers.version import Version
+        from api.resources.version import Version
         api.add_resource(Version, "/version", resource_class_kwargs=self.CONTEXT)
 
-        from api.controllers.login import Login
+        from api.resources.login import Login
         api.add_resource(Login, "/login", resource_class_kwargs=self.CONTEXT)
 
-        from api.controllers.todolist import TodoList
+        from api.resources.todolist import TodoList
         api.add_resource(TodoList, "/demo/todo-list", resource_class_kwargs=self.CONTEXT)
 
     def start(self):

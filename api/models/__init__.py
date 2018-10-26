@@ -29,8 +29,8 @@ class DB:
     def find_todo_by_id(self, todo_id: str) -> Todo:
         return self.session.query(Todo).filter(Todo.id == todo_id).one()
     
-    def find_all_todos(self) -> Todo:
-        return self.session.query(Todo).all()
+    def find_all_todos(self) -> List[Todo]:
+        return self.session.query(Todo)
     
     def delete_all_todos(self) -> None:
         return self.session.query(Todo).delete()

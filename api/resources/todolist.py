@@ -18,16 +18,7 @@ class TodoList(Resource):
     def get(self):
         try:
             todo_list = self.todo_list_service.get_todo_list()
-            args = request.args
-            if args and "id" in args:
-                todo_id = args["id"]
-                data = {
-                    "todo_list":
-                        [todo for todo in todo_list if todo["id"] == todo_id]
-                }
-            else:
-                data = {"todo_list": todo_list}
-            return RESTResponse(data).OK()
+            return RESTResponse({"todo_list": todo_list}).OK()
         except Exception as error:
             self.logger.error(error)
             return RESTResponse({"error":str(error)}).SERVER_ERROR()

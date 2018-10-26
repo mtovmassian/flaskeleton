@@ -5,15 +5,11 @@ from api.models import DB
 from api.models import Todo
 
 class TodoListService:
-    
-    TODO_LIST_FILE_PATH = os.path.join(os.path.dirname(__file__), "todolist.txt")
 
     def __init__(self, db: DB):
         self.db = db
-        if os.path.isfile(self.TODO_LIST_FILE_PATH) is not True:
-            self.create_todo_list(["clean my code", "test my code"])
 
-    def get_todo_list(self):
+    def get_todo_list(self, keyword: str=None):
         todos = self.db.find_all_todos()
         return  [todo.dictify() for todo in todos]
 

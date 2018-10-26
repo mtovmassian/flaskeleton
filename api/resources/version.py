@@ -1,12 +1,13 @@
+import os
 from flask_restful import Resource
 from api.middlewares.rest_response import RESTResponse
 from api.config.config import Config
-import os
+from api.models import DB
 
 
 class Version(Resource):
 
-    def __init__(self, logger):
+    def __init__(self, logger, db: DB):
         self.logger = logger
 
     def get(self):
