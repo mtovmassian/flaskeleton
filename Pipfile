@@ -19,5 +19,5 @@ pyyaml = "*"
 sqlalchemy = "*"
 
 [scripts]
-start = "python server.py -c dev"
+start = "python server.py --profile dev --db-init"
 tests = "pytest -s"

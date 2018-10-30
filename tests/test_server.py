@@ -6,7 +6,7 @@ from datetime import timedelta
 from server import Server
 from api.middlewares.auth import generate_access_token
 
-app = Server(config_profile="test").app.test_client()
+app = Server(config_profile="test", db_init=True).app.test_client()
 
 def _get_authorization_token(is_admin=False) -> str:
     user = {"username": "flaskeleton", "first_name": 'Flask', 'last_name': 'Eleton', 'is_admin': is_admin}

@@ -25,7 +25,7 @@ You will find a configuration file under `api/config/config.yml`. Three profiles
 ### Launch server
 Run this command into the `flaskeleton` directory:
 ```bash
-$ pipenv run python server.py -c <config profile>
+$ pipenv run python server.py --profile <config profile> --db-init
 ```
 Or use this pipenv alias to directly launch the server in development mode:
 ```bash

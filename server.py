@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import Tuple
 from flask import Flask
 from flask_cors import CORS
 from flask_restful import Api
@@ -9,26 +10,28 @@ from api.config.config import Config
 from api.models import DB
 
 
-def parse_args():
+def parse_args() -> Tuple[any]:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-c", "--config", type=str,
+        "-p", "--profile", type=str,
         help="Config profile dev|prod|test (default: dev)", default="dev"
     )
+    parser.add_argument(
+        "-d", "--db-init", action="store_true",
+        help="Initialize database"
+    )
     args = parser.parse_args()
-    config_profile = args.config
-    return config_profile
+    return (args.profile, args.db_init)
 
 class Server:
 
     CONTEXT = {} # Use context to share singletons through your application
 
-    def __init__(self, config_profile: str):
+    def __init__(self, config_profile: str, db_init: bool):
         os.environ.setdefault("config_profile", config_profile)
         self.config: Config = Config(config_profile)
         self.db = DB("sqlite:///{0}".format(self.config.get_db_name()))
-        if config_profile == "test":
-            self.db.create_db()
+        if db_init: self.db.create_db()
         self.HOST: str = self.config.get_app_host()
         self.PORT: int = self.config.get_app_port()
         self.DEBUG_MODE: int = bool(self.config.get_app_debug_mode())
@@ -58,6 +61,6 @@ class Server:
 
 
 if __name__ == '__main__':
-    config_profile = parse_args()
-    server = Server(config_profile)
+    args = parse_args()
+    server = Server(args[0], args[1])
     server.start()
