@@ -21,7 +21,7 @@ class Login(Resource):
             body = request.get_json()
             username = body["username"]
             password = body["password"]
-            user: User = self.db.find_user_by_username(username)
+            user: User = self.db.user.find_by_username(username)
             if user:
                 hashed_password = hashlib.sha512(password.encode()).hexdigest()
                 user_payload = {

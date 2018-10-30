@@ -27,14 +27,17 @@ class Server:
         os.environ.setdefault("config_profile", config_profile)
         self.config: Config = Config(config_profile)
         self.db = DB("sqlite:///{0}".format(self.config.get_db_name()))
+        if config_profile == "test":
+            self.db.create_db()
         self.HOST: str = self.config.get_app_host()
         self.PORT: int = self.config.get_app_port()
         self.DEBUG_MODE: int = bool(self.config.get_app_debug_mode())
+        self.CONTEXT["logger"] = Logger()
+        self.CONTEXT["db"] = self.db
+
         self.app = Flask(__name__)
         CORS(self.app)
         api = Api(self.app)
-        self.CONTEXT["logger"] = Logger()
-        self.CONTEXT["db"] = self.db
 
         from api.resources.version import Version
         api.add_resource(Version, "/version", resource_class_kwargs=self.CONTEXT)

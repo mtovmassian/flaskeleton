@@ -8,7 +8,9 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 from typing import List
 from .user import User
+from .user import UserRepository
 from .todo import Todo
+from .todo import TodoRepository
 
 
 class DB:
@@ -18,41 +20,16 @@ class DB:
         Session = sessionmaker(bind=self.engine)
         Session.configure(bind=self.engine)
         self.session: Session = Session()
-
-    def find_user_by_username(self, username: str) -> User:
-        try:
-            return self.session.query(User).filter(User.username == username).one()
-        except Exception as e:
-            print(e)
-            return None
-    
-    def find_todo_by_id(self, todo_id: str) -> Todo:
-        return self.session.query(Todo).filter(Todo.id == todo_id).one()
-    
-    def find_all_todos(self) -> List[Todo]:
-        return self.session.query(Todo)
-    
-    def delete_all_todos(self) -> None:
-        return self.session.query(Todo).delete()
-
-    def delete_todo(self, todo: Todo):
-        self.session.delete(todo)
-        self.session.commit()
-
-    def drop_table_if_exists(self, table_name, table_class) -> None:
-        if (self.engine.dialect.has_table(self.engine, table_name)):
-            table_class.__table__.drop(self.engine)
-
-    def save(self, record: any):
-        self.session.add(record)
-        self.session.commit()
-
-    def save_all(self, records: List[any]):
-        self.session.add_all(records)
-        self.session.commit()
+        
+        self.user = UserRepository(self.session)
+        self.todo = TodoRepository(self.session)
     
     def create_table(self, table_class) -> None:
         table_class.__table__.create(self.engine)
+    
+    def drop_table_if_exists(self, table_name, table_class) -> None:
+        if (self.engine.dialect.has_table(self.engine, table_name)):
+            table_class.__table__.drop(self.engine)
 
     def create_db(self):
         self.drop_table_if_exists("users", User)
