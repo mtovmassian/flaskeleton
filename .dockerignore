@@ -1,0 +1,6 @@
+.ropeproject
+__pycache__
+Pipfile.lock
+.vscode/
+flaskeleton.db
+flaskeleton-test.db

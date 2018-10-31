@@ -39,3 +39,6 @@ class Config:
 
     def get_db_port(self) -> int:
         return self.get_db()["port"]
+
+    def get_db_connection_string(self) -> str:
+        return self.get_db()["connection_string"]

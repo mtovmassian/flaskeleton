@@ -30,7 +30,7 @@ class Server:
     def __init__(self, config_profile: str, db_init: bool):
         os.environ.setdefault("config_profile", config_profile)
         self.config: Config = Config(config_profile)
-        self.db = DB("sqlite:///{0}".format(self.config.get_db_name()))
+        self.db = DB(self.config.get_db_connection_string())
         if db_init: self.db.create_db()
         self.HOST: str = self.config.get_app_host()
         self.PORT: int = self.config.get_app_port()
