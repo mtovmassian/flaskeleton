@@ -48,7 +48,7 @@ class TodoList(Resource):
         try:
             todo_id = request.args["id"]
             self.todo_list_service.delete_todo(todo_id)
-            return RESTResponse({"todo_list": []}).OK()
+            return RESTResponse({"todo_list": self.todo_list_service.get_todo_list()}).OK()
         except Exception as error:
             self.logger.error(error)
             return RESTResponse({"error":str(error)}).SERVER_ERROR()

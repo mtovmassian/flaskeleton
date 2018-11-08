@@ -61,6 +61,6 @@ class Server:
 
 
 if __name__ == '__main__':
-    args = parse_args()
-    server = Server(args[0], args[1])
+    config_profile, db_init = parse_args()
+    server = Server(config_profile, db_init)
     server.start()

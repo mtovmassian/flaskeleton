@@ -5,10 +5,7 @@ from api.models import DB
 from api.services.todolist import TodoListService
 
 config = Config("test")
-db = DB("sqlite:///{0}".format(config.get_db_name()))
-
-def test_create_todo_list_should_write_data_in_text_file():
-    pass
+db = DB("{0}".format(config.get_db_connection_string()))
 
 def test_get_todo_list_should_return_list_of_items_or_empty_list():
     tl_service = TodoListService(db)

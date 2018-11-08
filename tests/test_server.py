@@ -55,7 +55,7 @@ def test_put_todolist_should_update_todolist():
     assert len(body["todo_list"]) == 3
     
 def test_delete_todolist_should_remove_item_from_todolist():
-    todolist = ["foo"]
+    todolist = ["foo", "bar"]
     response1 = app.post(
         '/demo/todo-list',
         data=json.dumps(todolist), 
@@ -63,7 +63,7 @@ def test_delete_todolist_should_remove_item_from_todolist():
         headers={"Authorization": "Bearer " + _get_authorization_token(is_admin=True)}
     )
     body1 = json.loads(response1.get_data())
-    assert len(body1["todo_list"]) == 1
+    assert len(body1["todo_list"]) == 2
     item_id = body1["todo_list"][0]["id"]
 
     response2 = app.delete(
@@ -72,4 +72,4 @@ def test_delete_todolist_should_remove_item_from_todolist():
     )
     body2 = json.loads(response2.get_data())
     assert response2.status_code == 200
-    assert len(body2["todo_list"]) == 0
+    assert len(body2["todo_list"]) == 1
