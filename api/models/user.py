@@ -6,10 +6,10 @@ class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    first_name = Column(String)
-    last_name = Column(String)
-    password = Column(String)
+    username = Column(String(255), unique=True)
+    first_name = Column(String(255))
+    last_name = Column(String(255))
+    password = Column(String(255))
     is_admin = Column(Boolean, default=False)
 
     def __repr__(self):

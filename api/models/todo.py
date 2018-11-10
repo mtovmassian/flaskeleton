@@ -7,7 +7,7 @@ class Todo(Base):
     __tablename__ = 'todos'
 
     id = Column(Integer, primary_key=True)
-    what = Column(String)
+    what = Column(String(255))
 
     def dictify(self):
         return {"id": self.id, "what": self.what}

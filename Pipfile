@@ -17,6 +17,7 @@ pyjwt = "*"
 pytest = "*"
 pyyaml = "*"
 sqlalchemy = "*"
+pymysql = "*"
 
 [scripts]
 start = "python server.py --profile dev --db-init"

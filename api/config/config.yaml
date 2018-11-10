@@ -6,10 +6,10 @@ dev:
     port: 5005
     debug_mode: 1
   db:
-    name: "flaskeleton.db"
+    name: "flaskeleton"
     host: "127.0.0.1"
     port: 0000
-    connection_string: "sqlite:///flaskeleton.db"
+    connection_string: "mysql+pymysql://root:root@localhost/flaskeleton"
 
 prod:
   app:
@@ -22,7 +22,7 @@ prod:
     name: "flaskeleton.db"
     host: "127.0.0.1"
     port: 0000
-    connection_string: "sqlite:///flaskeleton.db"
+    connection_string: "mysql+pymysql://root:root@localhost/flaskeleton"
 
 test:
   app:
@@ -32,7 +32,7 @@ test:
     port: 5005
     debug_mode: 1
   db:
-    name: "flaskeleton-test.db"
+    name: "flaskeleton_test"
     host: "127.0.0.1"
     port: 0000
-    connection_string: "sqlite:///flaskeleton-test.db"
+    connection_string: "mysql+pymysql://root:root@localhost/flaskeleton_test"
