@@ -19,10 +19,10 @@ prod:
     port: 5005
     debug_mode: 0
   db:
-    name: "flaskeleton.db"
-    host: "127.0.0.1"
+    name: "flaskeleton"
+    host: "flaskeletondb"
     port: 0000
-    connection_string: "mysql+pymysql://root:root@localhost/flaskeleton"
+    connection_string: "mysql+pymysql://root:root@flaskeletondb/flaskeleton"
 
 test:
   app:

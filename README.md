@@ -18,9 +18,13 @@ $ pipenv install --python 3.6
 ### Configuration
 
 You will find a configuration file under `api/config/config.yml`. Three profiles are stored:
-  - dev: local environment
-  - prod: production environment
-  - test: test environment
+  - *dev*: local environment
+  - *prod*: production environment integrated with Docker
+  - *test*: test environment
+
+### Database
+
+By default *dev* and *test* environment rely on a [MySQL](https://www.mysql.com/fr/downloads/) database but it is possible to use an other DMBS. If so you will need to change accordingly the connection string in the configuration file.
 
 ### Launch server
 Run this command into the `flaskeleton` directory:

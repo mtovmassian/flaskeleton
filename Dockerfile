@@ -4,7 +4,9 @@ WORKDIR /flaskeleton
 
 COPY . /flaskeleton
 
-RUN pip install pipenv && pipenv install
+RUN apk add -U --no-cache gcc build-base linux-headers ca-certificates python3 python3-dev libffi-dev libressl-dev
+RUN pip install pipenv
+RUN pipenv install
 
 EXPOSE 5005
 

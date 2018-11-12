@@ -54,3 +54,4 @@ class DB:
         todo2 = Todo(what="test my code")
         self.session.add_all([flaskeleton_user, admin_user, todo1, todo2])
         self.session.commit()
+        self.session.close()
